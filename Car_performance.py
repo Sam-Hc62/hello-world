@@ -117,6 +117,33 @@ def main():
             else:
                 average_values['Drivetrain Efficiency'] = efficiency
                 break
+    def calculate_time:
+        
+    def menu_display():
+            print(f'------------------------\n|{'Part':<20}|{'Value':<4}|\n--------------------|----|')
+            for part, value in average_values.items:
+                print(f'|{part:<20}|{value:<4}|')
+            print('------------------------')
+            while True:
+                menu_choice = input('Would you like to...\n(1) calculate 0-60mph?\n(2) change the mass?\n(3) change the engine power?\n(4) change the wheel radius?\n(5) change the drag coefficient\n(6) change the area?\n(7) change the drivetrain efficiency?\n(8) end the program?\n\nChoose an option...')    
+                if not menu_choice.isdigit():
+                    continue
+                menu_choice = int(menu_choice)
+                if menu_choice == 1:
+                    calculate_time()
+                elif menu_choice == 2:
+                    get_mass()
+                elif menu_choice == 3:
+                    get_power()
+                elif menu_choice == 4:
+                    get_wheel()
+                elif menu_choice == 5:
+                    get_drag()
+                elif menu_choice == 6:
+                    get_area()
+                elif menu_choice == 7:
+                    get_efficiency()
+                elif menu_choice == 8:
+                    exit()
 
-                
 main()    
