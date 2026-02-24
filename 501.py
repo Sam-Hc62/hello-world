@@ -11,15 +11,15 @@ def main():
             if a < 0:
                 continue
             elif a > 180:
-                print('BUST!')
+                print('\nBUST!')
                 break
             else:
                 point1 = point1 - a 
                 if -10 < point1 and point1 < 1 :
                     print('Player 1 wins!')
-                    exit
+                    exit()
                 elif point1 < -10 :
-                    print('BUST!')
+                    print('\nBUST!')
                     point1 = point1 + a
                     return point1
                 else:
@@ -35,23 +35,20 @@ def main():
             if b < 0:
                 continue
             elif b > 180:
-                print('BUST!')
+                print('\nBUST!')
                 break
             else:
                 point2 = point2 - b
                 if -10 < point2 and point2 < 1 :
                     print('player 2 Wins!')
-                    exit
+                    exit()
                 elif point2 < -10 :
-                    print('BUST!')
+                    print('\nBUST!')
                     point2 = point2 + b
                     return point2
 
                 else:
-                    return point2
-                     
-                
-                
+                    return point2  
     def scoreboard():
         name1 = input('Player 1 name?...').title()
         name2 = input('Player 2 name?...').title()
