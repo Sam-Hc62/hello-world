@@ -2,11 +2,14 @@ import math
 def main():
     air_density = 1.225
     gravity = 9.81
-    average_values = {"Mass": 1600 ,"Engine Power":120000,"Wheel Radius":0.32,"Drag Coefficient":0.25,"Frontal Area":2.2,"Drivetrain Efficiency":0.85}
+    rolling_resistance_coefficient = 0.015
+    target_speed = 26.8
+    time_step = 0.01
+    average_values = {'Mass(Kg)': 1600 ,'Engine Power(W)':120000,"Drag Coefficient":0.25,"Frontal Area(m²)":2.2,"Drivetrain Efficiency":0.85}
     
     def get_mass():
         while True:
-            mass = input('Mass in Kgs...')
+            mass = input('\nMass in Kgs...')
             if not mass.isdigit():
                 continue
             mass = int(mass)
@@ -25,7 +28,7 @@ def main():
 
     def get_power():
         while True:
-            engine_power = input('Engine Power in kW...')
+            engine_power = input('\nEngine Power in kW...')
             if not engine_power.isdigit():
                 continue
             engine_power = int(engine_power) * 1000
@@ -41,32 +44,13 @@ def main():
             else:
                 average_values['Engine Power'] = engine_power
                 break
-        
-    def get_wheel():
-        while True:
-            wheel_radius = input('Wheel radius in inches...')
-            if not wheel_radius.isdigit():
-                continue
-            wheel_radius = round(wheel_radius,1)*0.0254
-            if wheel_radius > 0 and wheel_radius < 0.28:
-                print('Error... Wheel radius is too small...')
-                continue
-            elif wheel_radius > 0.45:
-                print('Error... Wheel radius is too large...')
-                continue
-            elif wheel_radius < 0:
-                print('Error... Wheel radius cannot be less than 0...')
-                continue
-            else:
-                average_values['Wheel Radius'] = wheel_radius
-                break
     
     def get_drag():
         while True:
-            drag = input('Drag Coefficient...')
+            drag = input('\nDrag Coefficient...')
             if not drag.isdigit():
                 continue
-            drag = round(drag,2)
+            drag = round(float(drag),2)
             if drag < 0.19 and drag > 0:
                 print('Error... Drag coefficient is too small...')
                 continue
@@ -82,7 +66,7 @@ def main():
     
     def get_area():
         while True:
-            area = input('Frontal area in m²...')
+            area = input('\nFrontal area in m²...')
             if not area.isdigit():
                 continue
             area = int(area)
@@ -101,7 +85,7 @@ def main():
 
     def get_efficiency():
         while True:
-            efficiency = input('Drivetrain efficiency as a percentage...')
+            efficiency = input('\nDrivetrain efficiency as a percentage...')
             if not efficiency.isdigit():
                 continue
             efficiency = int(efficiency)/100
@@ -117,15 +101,33 @@ def main():
             else:
                 average_values['Drivetrain Efficiency'] = efficiency
                 break
-    def calculate_time:
-        
+
+    def calculate_time():
+        velocity = 0.00000001 
+        time = 0
+        while velocity < target_speed:
+            engine_force = (average_values['Engine Power(W)'] * average_values["Drivetrain Efficiency"]) / velocity
+            drag_force = 0.5 * air_density * average_values["Drag Coefficient"] * average_values["Frontal Area(m²)"] * velocity**2
+            rolling_force = rolling_resistance_coefficient * average_values['Mass(Kg)'] * gravity
+            net_force = engine_force - drag_force - rolling_force
+            acceleration = net_force / average_values['Mass(Kg)']
+            velocity += acceleration * time_step
+            time += time_step
+        print(f'\nThis car will travel 0-60mph in {round(time,2)} seconds...')
+
+    def table():
+        print(f" _____________________________\n|{'Aspect':<22}|{'Value':<6}|\n|----------------------|------|")
+        for part, value in average_values.items():
+            print(f'|{part:<22}|{value:<6}|')
+        print(' -----------------------------')
+
     def menu_display():
-            print(f'------------------------\n|{'Part':<20}|{'Value':<4}|\n--------------------|----|')
-            for part, value in average_values.items:
-                print(f'|{part:<20}|{value:<4}|')
-            print('------------------------')
+            print(f" _____________________________\n|{'Aspect':<22}|{'Value':<6}|\n|----------------------|------|")
+            for part, value in average_values.items():
+                print(f'|{part:<22}|{value:<6}|')
+            print(' -----------------------------')
             while True:
-                menu_choice = input('Would you like to...\n(1) calculate 0-60mph?\n(2) change the mass?\n(3) change the engine power?\n(4) change the wheel radius?\n(5) change the drag coefficient\n(6) change the area?\n(7) change the drivetrain efficiency?\n(8) end the program?\n\nChoose an option...')    
+                menu_choice = input('\nWould you like to...\n\n(1) calculate 0-60mph?\n(2) change the mass?\n(3) change the engine power?\n(4) change the drag coefficient\n(5) change the area?\n(6) change the drivetrain efficiency?\n(7) display table of values?\n(8) end the program?\n\nChoose an option...')    
                 if not menu_choice.isdigit():
                     continue
                 menu_choice = int(menu_choice)
@@ -136,14 +138,14 @@ def main():
                 elif menu_choice == 3:
                     get_power()
                 elif menu_choice == 4:
-                    get_wheel()
-                elif menu_choice == 5:
                     get_drag()
-                elif menu_choice == 6:
+                elif menu_choice == 5:
                     get_area()
-                elif menu_choice == 7:
+                elif menu_choice == 6:
                     get_efficiency()
+                elif menu_choice == 7:
+                    table()
                 elif menu_choice == 8:
                     exit()
-
+    menu_display()
 main()    
